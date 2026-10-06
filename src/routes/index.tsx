@@ -109,7 +109,7 @@ function Landing() {
 
   const filtered = useMemo(() => {
     let list = VEHICLES;
-    if (range !== null) list = list.filter((v) => v.price >= RANGES[range].min && v.price < RANGES[range].max);
+    if (range !== null) list = list.filter((v) => v.price >= RANGES[range]!.min && v.price < RANGES[range]!.max);
     if (type) list = list.filter((v) => v.type === type);
     return list.slice(0, 4);
   }, [range, type]);
@@ -131,7 +131,7 @@ function Landing() {
       <HowItWorks />
       <Benefits />
       <QuickFilters range={range} type={type}
-        pickRange={(i) => { setRange(i); setType(null); track("financing_budget_selected", { range: RANGES[i].label }); scrollTo("autos"); }}
+        pickRange={(i) => { setRange(i); setType(null); track("financing_budget_selected", { range: RANGES[i]!.label }); scrollTo("autos"); }}
         pickType={(t) => { setType(t); setRange(null); track("financing_budget_selected", { type: t }); scrollTo("autos"); }} />
       <Requirements />
       <Education />
@@ -151,7 +151,7 @@ function Header() {
     on(); window.addEventListener("scroll", on);
     return () => window.removeEventListener("scroll", on);
   }, []);
-  const links = [["Buscar autos", "autos"], ["¿Cómo funciona?", "como-funciona"], ["Preguntas frecuentes", "faq"]];
+  const links = [["Buscar autos", "autos"], ["¿Cómo funciona?", "como-funciona"], ["Preguntas frecuentes", "faq"]] as const;
   return (
     <header className={`sticky top-0 z-40 bg-background/90 backdrop-blur transition-shadow ${scrolled ? "shadow-soft" : ""}`}>
       <div className="mx-auto max-w-7xl px-5 h-16 md:h-[72px] flex items-center justify-between gap-4">
@@ -292,7 +292,7 @@ function Simulator(p: {
 }
 
 function Vehicles({ list, down, term, range, type, clear }: { list: Vehicle[]; down: number; term: number; range: number | null; type: string | null; clear: () => void }) {
-  const active = range !== null ? RANGES[range].label : type;
+  const active = range !== null ? RANGES[range]!.label : type;
   return (
     <section id="autos" className="py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-5">
